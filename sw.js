@@ -1,6 +1,6 @@
 /* Service worker de Bóveda Disney: guarda la app para abrirla sin conexión y los pósters ya vistos.
    Cuando cambies cualquier archivo de la app, subí el número de VERSION para que los celulares se actualicen. */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL = 'boveda-shell-' + VERSION;
 const IMGS = 'boveda-posters';
 const FONTS = 'boveda-fonts';
