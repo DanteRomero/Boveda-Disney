@@ -18,7 +18,7 @@ const STUDIOS = [
   'Disneynature'
 ];
 
-const K = { key:'boveda.tmdbKey', cat:'boveda.catalogo', seen:'boveda.vistas', theme:'boveda.tema', minor:'boveda.ocultarMenores' };
+const K = { key:'boveda.tmdbKey', cat:'boveda.catalogo', seen:'boveda.vistas', theme:'boveda.tema', skin:'boveda.estilo', minor:'boveda.ocultarMenores' };
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
   set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e){ return false; } },
@@ -135,10 +135,29 @@ function applyTheme(m){
   if (m === 'light' || m === 'dark') root.setAttribute('data-theme', m); else root.removeAttribute('data-theme');
   ['light','dark','auto'].forEach(k => $('th-' + k).setAttribute('aria-pressed', String(k === m)));
   store.set(K.theme, m);
-  const dark = m === 'dark' || (m === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
-  document.querySelectorAll('meta[name="theme-color"]').forEach(el => el.setAttribute('content', dark ? '#0C1027' : '#F3F5FB'));
+  syncThemeColor();
 }
+// La barra del sistema toma el fondo del tema y estilo activos.
+function syncThemeColor(){
+  const bg = getComputedStyle(root).getPropertyValue('--bg').trim();
+  document.querySelectorAll('meta[name="theme-color"]').forEach(el => el.setAttribute('content', bg));
+}
+
+// Estilos temáticos: cambian colores, tipografía y fondo; se combinan con claro/oscuro.
+const SKINS = [
+  { id: 'clasico',  name: 'Clásico',        sw: ['#2D47C9', '#A87708', '#93A6FF'] },
+  { id: 'osos',     name: 'Tierra de osos', sw: ['#2E6A55', '#B4561F', '#7FE0B8'] },
+  { id: 'monsters', name: 'Monsters Inc.',  sw: ['#6B3FA0', '#5ED3DE', '#A8E05F'] }
+];
+function applySkin(s){
+  if (!SKINS.some(k => k.id === s)) s = 'clasico';
+  if (s === 'clasico') root.removeAttribute('data-skin'); else root.setAttribute('data-skin', s);
+  store.set(K.skin, s);
+  syncThemeColor();
+}
+applySkin(store.get(K.skin, 'clasico'));
 applyTheme(store.get(K.theme, 'auto'));
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncThemeColor);
 ['light','dark','auto'].forEach(k => $('th-' + k).addEventListener('click', () => applyTheme(k)));
 
 /* ================= Piezas de UI ================= */
@@ -339,6 +358,8 @@ function openSettings(){
   const { key } = authParts();
   const when = CAT ? new Date(CAT.at).toLocaleDateString('es-AR', { day: 'numeric', month: 'long' }) : '—';
   $('sheet-body').innerHTML = `<div class="sheet-top"><h2 id="sh-title">Ajustes</h2><button class="sheet-close" data-act="close" aria-label="Cerrar">${ICON_CLOSE}</button></div>
+    <div class="set-row"><h3>Estilo</h3><p>Cambia los colores y la letra de la app. Se combina con el modo claro u oscuro.</p>
+      <div class="skins" role="group" aria-label="Estilo">${SKINS.map(k => `<button class="skin" data-skin="${k.id}" aria-pressed="${k.id === store.get(K.skin, 'clasico')}"><span class="swatch">${k.sw.map(c => `<i style="background:${c}"></i>`).join('')}</span>${esc(k.name)}</button>`).join('')}</div></div>
     <div class="set-row"><h3>Catálogo</h3><p>${FILMS.length} películas descargadas el ${when}. Se actualiza solo cada ${CACHE_DAYS} días.</p>
       <label class="toggle"><input type="checkbox" id="set-minor" ${hideMinor ? 'checked' : ''}> Ocultar cortos y títulos con pocos votos</label>
       <button class="btn btn-ghost" data-act="refresh">Actualizar ahora</button></div>
@@ -348,6 +369,10 @@ function openSettings(){
       <button class="btn btn-ghost" data-act="change-key">Cambiar clave</button></div>
     <p class="attrib">Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB. Datos e imágenes: themoviedb.org.</p>`;
   $('set-minor').addEventListener('change', e => { hideMinor = e.target.checked; store.set(K.minor, hideMinor); renderAll(); });
+  $('sheet-body').querySelectorAll('.skin').forEach(b => b.addEventListener('click', () => {
+    applySkin(b.dataset.skin);
+    $('sheet-body').querySelectorAll('.skin').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
   showSheet();
 }
 $('open-settings').addEventListener('click', openSettings);
