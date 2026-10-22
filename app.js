@@ -118,7 +118,7 @@ let seen = new Set(store.get(K.seen, []));
 let hideMinor = store.get(K.minor, true);
 const ANIM = 16, DOC = 99;  // IDs de género de TMDB: Animación y Documental
 
-const state = { gen: 'all', q: '', dec: 'all', ord: 'asc', hide: false, rnd: String(ANIM) };
+const state = { gen: 'all', q: '', dec: 'all', ord: 'asc', hide: false, rnd: String(ANIM), from: 'all', to: 'all' };
 
 function setCatalog(cat){
   CAT = cat;
@@ -227,7 +227,18 @@ function patchCard(id){
 
 /* ================= Al azar ================= */
 let lastPick = null, rolling = false;
-const pool = () => visible().filter(f => (state.rnd === 'all' || f.g.includes(+state.rnd)) && (!$('rnd-unseen').checked || !seen.has(f.id)));
+function yearRange(){
+  const a = state.from === 'all' ? -Infinity : +state.from, b = state.to === 'all' ? Infinity : +state.to;
+  return a <= b ? [a, b] : [b, a];   // si quedan invertidos, se toma el rango igual
+}
+const pool = () => { const [a, b] = yearRange();
+  return visible().filter(f => (state.rnd === 'all' || f.g.includes(+state.rnd)) && f.y >= a && f.y <= b && (!$('rnd-unseen').checked || !seen.has(f.id))); };
+function renderYears(){
+  const ys = [...new Set(FILMS.map(f => f.y).filter(Boolean))].sort((a, b) => a - b);
+  const opts = sel => ys.map(y => `<option value="${y}"${String(y) === sel ? ' selected' : ''}>${y}</option>`).join('');
+  $('rnd-from').innerHTML = '<option value="all">Cualquiera</option>' + opts(state.from);
+  $('rnd-to').innerHTML = '<option value="all">Cualquiera</option>' + opts(state.to);
+}
 function renderRandomControls(){
   $('chips-rnd').innerHTML = chipsHTML(state.rnd);
   const n = pool().length;
@@ -266,6 +277,8 @@ function roll(){
 }
 $('chips-rnd').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; state.rnd = b.dataset.g; renderRandomControls(); });
 $('rnd-unseen').addEventListener('change', renderRandomControls);
+$('rnd-from').addEventListener('change', e => { state.from = e.target.value; renderRandomControls(); });
+$('rnd-to').addEventListener('change', e => { state.to = e.target.value; renderRandomControls(); });
 $('rnd-go').addEventListener('click', roll);
 
 /* ================= Vistas ================= */
@@ -391,7 +404,7 @@ $('tabs').addEventListener('click', e => { const b = e.target.closest('.tab'); i
 
 function renderAll(){
   $('sub').textContent = `${visible().length} películas · ${Math.min(...FILMS.map(f => f.y))}–${Math.max(...FILMS.map(f => f.y))}`;
-  renderDecades(); renderCatalog(); renderSeen(); renderRandomControls();
+  renderDecades(); renderYears(); renderCatalog(); renderSeen(); renderRandomControls();
 }
 
 /* ================= Arranque ================= */
