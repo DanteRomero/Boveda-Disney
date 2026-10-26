@@ -69,6 +69,30 @@
   --ps:44%; --pl1:30%; --pl2:16%;
   --deco:linear-gradient(rgba(15,20,48,.66),rgba(15,20,48,.66)) fixed,url("deco/monsters.svg") 0 0/480px fixed}
 
+/* El extraño mundo de Jack: luna llena y colina en espiral sin personajes (deco/jack.svg), telarañas en las esquinas
+   (deco/telarana-*.svg), naranja de calabaza y violeta de noche. Las telarañas arrancan debajo del header. */
+:root[data-skin="jack"]{
+  --bg:#ECE4D3; --surface:#FBF6EA; --ink:#1B1726; --muted:#5E5670; --line:#D9CFBA;
+  --accent:#4B2E83; --accent-ink:#FFFFFF; --gold:#B4470E; --gold-ink:#FFFFFF; --chip:#E3D9C4;
+  --ps:30%; --pl1:34%; --pl2:16%;
+  --shadow:0 1px 2px rgba(27,23,38,.1),0 6px 18px rgba(27,23,38,.12);
+  --backdrop:rgba(14,11,26,.55);
+  --f-display:"Mystery Quest",Georgia,serif; --fw-display:400;
+  --web:url("deco/telarana-izq.svg") left 0 top 62px/170px no-repeat fixed,url("deco/telarana-der.svg") right 0 top 62px/190px no-repeat fixed;
+  --deco:var(--web),linear-gradient(rgba(236,228,211,.55),rgba(236,228,211,.55)) fixed,url("deco/jack.svg") center bottom/auto 100% no-repeat fixed}
+@media (prefers-color-scheme:dark){:root[data-skin="jack"]:not([data-theme="light"]){
+  --bg:#0E0B1A; --surface:#1A1528; --ink:#F1ECE2; --muted:#A79FBF; --line:#2C2541;
+  --accent:#F28C28; --accent-ink:#1A0E05; --gold:#F2D27A; --gold-ink:#1A1405; --chip:#241D36;
+  --ps:28%; --pl1:26%; --pl2:12%; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.45);
+  --deco:var(--web),linear-gradient(rgba(14,11,26,.55),rgba(14,11,26,.55)) fixed,url("deco/jack.svg") center bottom/auto 100% no-repeat fixed}}
+:root[data-skin="jack"][data-theme="dark"]{
+  --bg:#0E0B1A; --surface:#1A1528; --ink:#F1ECE2; --muted:#A79FBF; --line:#2C2541;
+  --accent:#F28C28; --accent-ink:#1A0E05; --gold:#F2D27A; --gold-ink:#1A1405; --chip:#241D36;
+  --ps:28%; --pl1:26%; --pl2:12%; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.45);
+  --deco:var(--web),linear-gradient(rgba(14,11,26,.55),rgba(14,11,26,.55)) fixed,url("deco/jack.svg") center bottom/auto 100% no-repeat fixed}
+/* Una telaraña con araña en la esquina de cada panel */
+:root[data-skin="jack"] .panel,:root[data-skin="jack"] .empty{background:url("deco/telarana-der.svg") right top/78px no-repeat,var(--surface)}
+
 *{box-sizing:border-box}
 html{padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--deco),var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
@@ -212,7 +236,7 @@ dialog::backdrop{background:var(--backdrop)}
 .set-row h3{margin:0;font-size:15px}
 .set-row p{margin:0;color:var(--muted);font-size:13.5px}
 .attrib{font-size:12px;color:var(--muted)}
-.skins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.skins{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px}
 .skin{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;text-align:left;font-size:13px;font-weight:600;min-width:0}
 .skin[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .swatch{display:flex}

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1000">
+  <!-- El extraño mundo de Jack: la luna llena, la colina en espiral (sin personajes),
+       el trineo-ataúd con renos esqueléticos y una Navidad siniestra al pie de la colina.
+       Va fijo y ocupa el alto de la pantalla; el velo de styles.css regula cuánto se ve. -->
+  <defs>
+    <radialGradient id="moon" cx=".45" cy=".42" r=".6">
+      <stop offset="0" stop-color="#FCE6B0"/><stop offset=".7" stop-color="#F4C66A"/><stop offset="1" stop-color="#E9A24A"/>
+    </radialGradient>
+    <radialGradient id="glow"><stop offset=".6" stop-color="#F4C66A" stop-opacity=".35"/><stop offset="1" stop-color="#F4C66A" stop-opacity="0"/></radialGradient>
+    <radialGradient id="pump"><stop offset="0" stop-color="#FFB13B"/><stop offset="1" stop-color="#C2410C"/></radialGradient>
+  </defs>
+
+  <!-- Estrellas y copos -->
+  <g fill="#EDE6DA" opacity=".7">
+    <circle cx="40" cy="60" r="1.6"/><circle cx="130" cy="120" r="1.2"/><circle cx="560" cy="90" r="1.8"/><circle cx="470" cy="40" r="1.2"/>
+    <circle cx="250" cy="70" r="1.3"/><circle cx="80" cy="200" r="1.2"/><circle cx="580" cy="230" r="1.3"/><circle cx="350" cy="130" r="1"/>
+  </g>
+  <g stroke="#EDE6DA" stroke-width="1.6" stroke-linecap="round" opacity=".55">
+    <path d="M60 330v14M53 337h14M55 332l10 10M65 332l-10 10"/>
+    <path d="M555 400v12M549 406h12M551 402l8 8M559 402l-8 8"/>
+    <path d="M28 560v10M23 565h10"/>
+    <path d="M575 640v14M568 647h14M570 642l10 10M580 642l-10 10"/>
+    <path d="M110 780v10M105 785h10M106 781l8 8M114 781l-8 8"/>
+  </g>
+
+  <!-- Luna -->
+  <circle cx="380" cy="500" r="280" fill="url(#glow)"/>
+  <circle cx="380" cy="500" r="230" fill="url(#moon)"/>
+
+  <!-- Trineo-ataúd con renos esqueléticos cruzando la luna -->
+  <g fill="#15101F" stroke="#15101F" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="3" fill="none" d="M84 262l46 10M130 272l40 8"/>
+    <path d="M60 246q6-8 16-6l6-8 2 8q6 2 4 8l-8 2 4 14h-4l-4-12-6 2-2 10h-4l2-12q-6-2-6-6z"/>
+    <path stroke-width="1.5" fill="none" d="M74 240l-4-10 4 4M80 238l4-10-2 6"/>
+    <path d="M110 256q6-8 16-6l6-8 2 8q6 2 4 8l-8 2 4 14h-4l-4-12-6 2-2 10h-4l2-12q-6-2-6-6z"/>
+    <path stroke-width="1.5" fill="none" d="M124 250l-4-10 4 4M130 248l4-10-2 6"/>
+    <path d="M168 270l12-6h34l8 8-6 12h-40z"/>
+    <path stroke-width="3" fill="none" d="M164 292q30 6 62-4"/>
+  </g>
+
+  <!-- Murciélagos -->
+  <g fill="#15101F">
+    <path d="M470 200q8-10 14-2 4-6 8 0 6-8 14 2-8-2-10 4-4-4-6 2-2-6-6-2-2-6-12-2z"/>
+    <path d="M520 290q6-8 11-2 3-5 6 0 5-6 11 2-6-1-8 3-3-3-5 2-2-5-5-2-2-5-10-1z"/>
+    <path d="M420 150q5-6 9-1 2-4 5 0 4-5 9 1-5-1-6 3-2-3-4 1-1-4-4-1-2-4-8 0z"/>
+  </g>
+
+  <!-- Colina en espiral, achicada hacia la esquina de abajo a la derecha para que la punta quede delante de la luna -->
+  <g transform="translate(90 150) scale(.85)">
+  <!-- Colina en espiral -->
+  <path fill="#2B2340" d="M600 1000V610C560 568 470 552 400 560C300 572 214 626 188 700C162 776 214 846 284 842C346 838 374 790 356 746C340 706 290 700 270 730C256 754 274 782 300 774C288 764 290 744 306 748C332 760 332 802 292 812C240 824 208 772 224 720C244 652 330 614 420 614C500 616 540 664 544 750L536 1000Z"/>
+  <g fill="none" stroke="#1A1528" stroke-width="3" stroke-linecap="round" opacity=".8">
+    <path d="M590 640C540 600 470 590 400 598C320 608 250 650 226 712"/>
+    <path d="M580 680C540 646 470 636 410 642C340 650 280 690 262 738"/>
+    <path d="M570 760C560 700 520 664 460 656"/>
+    <path d="M206 724C200 780 240 820 290 816"/>
+  </g>
+  <path fill="none" stroke="#4A3F66" stroke-width="3" stroke-linecap="round" opacity=".7" d="M560 590C500 566 430 566 370 582"/>
+
+  </g>
+
+  <!-- Árbol de Navidad seco con adornos -->
+  <g stroke="#15101F" stroke-linecap="round" fill="none">
+    <path stroke-width="7" d="M70 950C74 880 64 830 80 780"/>
+    <path stroke-width="4" d="M76 870l-36-26M74 840l34-30M78 810l-28-34M80 790l22-28"/>
+  </g>
+  <g fill="#7A1E2B"><circle cx="42" cy="852" r="6"/><circle cx="106" cy="818" r="5"/><circle cx="52" cy="782" r="5"/></g>
+  <g fill="#3E6B4A"><circle cx="100" cy="770" r="5"/><circle cx="64" cy="830" r="4"/></g>
+  <path fill="#15101F" d="M80 760l5 10 11 1-8 7 2 11-10-6-10 6 2-11-8-7 11-1z"/>
+
+  <!-- Suelo, cerca torcida y lápidas -->
+  <path fill="#15101F" d="M0 930Q150 900 300 930T600 920V1000H0z"/>
+  <g stroke="#15101F" stroke-width="5" stroke-linecap="round">
+    <path d="M150 930l-4-40M180 928l4-44M210 930l-6-36M240 932l2-42M140 904l110-6"/>
+  </g>
+  <path fill="#15101F" d="M470 930v-34q0-20 20-20t20 20v34z"/>
+
+  <!-- Regalos siniestros -->
+  <g stroke="#15101F" stroke-width="2">
+    <rect x="270" y="900" width="44" height="38" fill="#5A1A24"/>
+    <path d="M292 900v38M270 918h44" stroke="#2D0D12" stroke-width="5"/>
+    <path d="M292 900q-14-16-18-4t18 4q14-16 18-4t-18 4" fill="none" stroke="#2D0D12" stroke-width="3"/>
+    <rect x="322" y="914" width="34" height="26" fill="#2E4A36" transform="rotate(8 339 927)"/>
+    <path d="M336 912l20-20 6 4-18 20" fill="#2E4A36"/>
+    <path d="M346 902q6-16 18-12 4 2-2 6" fill="none" stroke="#4E7A3E" stroke-width="4"/>
+  </g>
+
+  <!-- Calabazas encendidas -->
+  <g>
+    <ellipse cx="420" cy="944" rx="18" ry="14" fill="url(#pump)"/>
+    <path fill="#15101F" d="M410 940l4-5 3 5zM424 940l4-5 3 5zM410 948q10 6 20 0l-3 4-3-2-3 3-3-3-3 2z"/>
+    <ellipse cx="200" cy="962" rx="14" ry="11" fill="url(#pump)"/>
+    <path fill="#15101F" d="M193 958l3-4 2 4zM203 958l3-4 2 4zM192 965q8 5 16 0l-3 3-2-2-3 2-2-2-3 2z"/>
+    <ellipse cx="540" cy="958" rx="16" ry="12" fill="url(#pump)"/>
+    <path fill="#15101F" d="M532 954l3-4 3 4zM544 954l3-4 3 4zM531 961q9 5 18 0l-3 3-3-2-3 3-3-3-3 2z"/>
+  </g>
+</svg>

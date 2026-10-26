@@ -166,17 +166,19 @@ function syncThemeColor(){
   document.querySelectorAll('meta[name="theme-color"]').forEach(el => el.setAttribute('content', bg));
 }
 
-// Íconos de "Al azar" según el estilo: el tótem de oso de Kenai y el logo de Monsters Inc.
-// El logo usa una máscara, así que cada copia necesita su propio id.
+// Íconos de "Al azar" según el estilo: el tótem de oso de Kenai, el logo de Monsters Inc. y la cara de Oogie Boogie.
+// Los que usan máscara necesitan un id propio por copia.
 const ICON_TOTEM = () => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 4.4a1.6 1.6 0 1 1 2.3-1.1M15.4 4.4a1.6 1.6 0 1 0-2.3-1.1"/><path d="M7.6 10V5.4c0-1.3.9-2.1 2.2-2.1h4.4c1.3 0 2.2.8 2.2 2.1V10"/><rect x="10.1" y="6.6" width="3.8" height="4" rx=".6"/><path d="M11 8.9h2"/><path d="M7.6 10l-.5 8.3c0 1.8 2 2.7 4.9 2.7s4.9-.9 4.9-2.7l-.5-8.3"/><path d="M9.2 11.8l1.4 4.2M14.8 11.8l-1.4 4.2"/><path d="M9.5 21q0-2.6 2.5-2.6t2.5 2.6"/><path d="M7.6 6.8C4.6 7.2 3.8 10 5.3 12.4M16.6 18.6c2 .4 2.5 2.1 1.9 3.6"/><circle cx="9.1" cy="5.6" r=".6" fill="currentColor" stroke="none"/><circle cx="14.9" cy="5.6" r=".6" fill="currentColor" stroke="none"/></svg>';
 const ICON_MONSTERS = id => `<svg viewBox="0 0 24 24"><defs><mask id="${id}"><rect width="24" height="24" fill="#fff"/><path d="M4.6 12Q12 6.6 19.4 12Q12 17.4 4.6 12Z" fill="#000"/></mask></defs><path mask="url(#${id})" fill="currentColor" d="M1.5 3.5h7l3.5 4.8 3.5-4.8h7v3h-1.2v11h1.2v3h-7v-3h1.1v-4.6L12 17.5l-4.6-4.6v4.6h1.1v3h-7v-3h1.2v-11H1.5z"/><path d="M4.6 12Q12 6.6 19.4 12Q12 17.4 4.6 12Z" fill="none" stroke="currentColor"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/></svg>`;
-const ICO_DEFAULT = { tab: $('ico-tab').innerHTML, btn: $('ico-btn').innerHTML };
+const ICON_OOGIE = id => `<svg viewBox="0 0 24 24"><defs><mask id="${id}"><rect width="24" height="24" fill="#fff"/><path fill="#000" d="M8.6 11.4l3 1.2-1.8.9zM16.2 11.2l-3 1.4 1.8.8zM7.6 15.2q4.6 3.4 9.6-.4l-.5 1.8-1-.6-.4 1.6-1.1-.6-.5 1.5-1-1.1-.9 1.1-.5-1.4-1.1.6-.3-1.5-1.2.4z"/></mask></defs><path mask="url(#${id})" fill="currentColor" d="M3.5 22c0-6 1.3-9.6 3.9-12.2L4.6 8.9c-1.1-.4-1.2-1.7-.1-2.2l5.6-3.6c1.5-.9 3.1-.7 4.3.4 3.1 3 5.3 7.2 5.8 11.8l.5 6.7z"/></svg>`;
+const ICO_DEFAULT ={ tab: $('ico-tab').innerHTML, btn: $('ico-btn').innerHTML };
 
 // Estilos temáticos: cambian colores, tipografía, fondo y el ícono de "Al azar"; se combinan con claro/oscuro.
 const SKINS = [
   { id: 'clasico',  name: 'Clásico',        sw: ['#2D47C9', '#A87708', '#93A6FF'] },
   { id: 'osos',     name: 'Tierra de osos', sw: ['#2E6A55', '#B4561F', '#7FE0B8'], ico: ICON_TOTEM },
-  { id: 'monsters', name: 'Monsters Inc.',  sw: ['#6B3FA0', '#5ED3DE', '#A8E05F'], ico: ICON_MONSTERS }
+  { id: 'monsters', name: 'Monsters Inc.',  sw: ['#6B3FA0', '#5ED3DE', '#A8E05F'], ico: ICON_MONSTERS },
+  { id: 'jack',     name: 'El extraño mundo de Jack', sw: ['#F28C28', '#F2D27A', '#4B2E83'], ico: ICON_OOGIE }
 ];
 function applySkin(s){
   const skin = SKINS.find(k => k.id === s) || SKINS[0]; s = skin.id;

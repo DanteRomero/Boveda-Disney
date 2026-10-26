@@ -12,7 +12,7 @@ App de películas de Disney conectada a la API de TMDB. Tiene catálogo con filt
 | `manifest.webmanifest` | Nombre, ícono y colores para instalarla como app |
 | `sw.js` | Service worker: permite abrirla sin conexión y guarda los pósters |
 | `icons/` | Íconos de la app |
-| `deco/` | Fondos de los estilos temáticos (pinturas de la cueva de Tierra de osos, puertas de Monsters Inc.) |
+| `deco/` | Fondos de los estilos temáticos (pinturas de la cueva de Tierra de osos, puertas de Monsters Inc., luna y telarañas de El extraño mundo de Jack) |
 
 ## 1. Conseguir el token de TMDB
 
