@@ -17,6 +17,20 @@ const STUDIOS = [
   'DisneyToon Studios',
   'Disneynature'
 ];
+// Estudios de los que solo se toman las películas animadas (sus películas de acción real no son "de Disney").
+// Así entran El extraño mundo de Jack, ¿Quién engañó a Roger Rabbit?, Goofy: la película, etc.
+const STUDIOS_ANIM = [
+  'Touchstone Pictures',
+  'Skellington Productions',
+  'Walt Disney Television Animation',
+  'Disney Television Animation',
+  'Disney MovieToons'
+];
+// Películas sueltas que no salen por estudio. El número es el de la dirección en themoviedb.org/movie/NÚMERO.
+const EXTRA_IDS = [
+  9479   // El extraño mundo de Jack (The Nightmare Before Christmas)
+];
+const CAT_VERSION = 2;             // subirlo cuando cambian las listas de arriba: fuerza a bajar el catálogo de nuevo
 
 const K = { key:'boveda.tmdbKey', cat:'boveda.catalogo', seen:'boveda.vistas', theme:'boveda.tema', skin:'boveda.estilo', minor:'boveda.ocultarMenores' };
 const store = {
@@ -61,39 +75,48 @@ function errorText(e){
   return 'Algo salió mal al hablar con TMDB. Probá de nuevo.';
 }
 
-async function findStudioIds(){
+async function findStudioIds(names){
   const ids = new Set();
-  for (const name of STUDIOS) {
+  for (const name of names) {
     const r = await tmdb('/search/company', { query: name });
     (r.results || []).filter(c => norm(c.name) === norm(name)).forEach(c => ids.add(c.id));
   }
   return [...ids];
 }
 
+// Todas las páginas de una búsqueda de /discover/movie, de a 6 pedidos en paralelo
+async function discoverAll(params, onPage){
+  const first = await tmdb('/discover/movie', { ...params, page: 1 });
+  const totalPages = Math.min(first.total_pages || 1, 500);
+  const all = [...(first.results || [])];
+  onPage(all.length, first.total_results || all.length);
+  const pages = []; for (let p = 2; p <= totalPages; p++) pages.push(p);
+  for (let i = 0; i < pages.length; i += 6) {
+    const res = await Promise.all(pages.slice(i, i + 6).map(p => tmdb('/discover/movie', { ...params, page: p })));
+    res.forEach(r => all.push(...(r.results || [])));
+    onPage(all.length, first.total_results || all.length);
+  }
+  return all;
+}
+
 async function downloadCatalog(onProgress){
   onProgress(0.03, 'Buscando los estudios de Disney.');
-  const studios = await findStudioIds();
+  const studios = await findStudioIds(STUDIOS);
   if (!studios.length) throw new ApiError('http', 'sin estudios');
+  const animStudios = await findStudioIds(STUDIOS_ANIM);
 
   onProgress(0.08, 'Leyendo los géneros.');
   const g = await tmdb('/genre/movie/list', { language: LANG });
   const genres = Object.fromEntries((g.genres || []).map(x => [x.id, x.name]));
 
-  const base = { with_companies: studios.join('|'), language: LANG, sort_by: 'primary_release_date.asc',
-                 include_adult: 'false', include_video: 'false' };
-  const first = await tmdb('/discover/movie', { ...base, page: 1 });
-  const totalPages = Math.min(first.total_pages || 1, 500);
-  const all = [...(first.results || [])];
-  const total = first.total_results || all.length;
-  onProgress(0.1, `Descargando ${total} películas…`);
+  const base = { language: LANG, sort_by: 'primary_release_date.asc', include_adult: 'false', include_video: 'false' };
+  const all = await discoverAll({ ...base, with_companies: studios.join('|') }, (n, total) =>
+    onProgress(0.1 + 0.8 * Math.min(1, n / total), `Descargando ${Math.min(n, total)} de ${total} películas…`));
 
-  const pages = []; for (let p = 2; p <= totalPages; p++) pages.push(p);
-  for (let i = 0; i < pages.length; i += 6) {
-    const batch = pages.slice(i, i + 6);
-    const res = await Promise.all(batch.map(p => tmdb('/discover/movie', { ...base, page: p })));
-    res.forEach(r => all.push(...(r.results || [])));
-    onProgress(0.1 + 0.88 * Math.min(1, all.length / total), `Descargando ${Math.min(all.length, total)} de ${total} películas…`);
-  }
+  onProgress(0.92, 'Sumando las animadas de otros estudios.');
+  if (animStudios.length) all.push(...await discoverAll({ ...base, with_companies: animStudios.join('|'), with_genres: ANIM }, () => {}));
+  const extras = await Promise.all(EXTRA_IDS.map(id => tmdb('/movie/' + id, { language: LANG }).catch(() => null)));
+  extras.forEach(m => { if (m) all.push({ ...m, genre_ids: (m.genres || []).map(x => x.id) }); });
 
   const seenIds = new Set();
   const films = [];
@@ -107,7 +130,7 @@ async function downloadCatalog(onProgress){
       s: (m.overview || '').slice(0, 600)
     });
   }
-  return { at: Date.now(), genres, films };
+  return { at: Date.now(), v: CAT_VERSION, genres, films };
 }
 
 /* ================= Estado ================= */
@@ -143,15 +166,22 @@ function syncThemeColor(){
   document.querySelectorAll('meta[name="theme-color"]').forEach(el => el.setAttribute('content', bg));
 }
 
-// Estilos temáticos: cambian colores, tipografía y fondo; se combinan con claro/oscuro.
+// Íconos de "Al azar" según el estilo: el tótem de oso de Kenai y el logo de Monsters Inc.
+// El logo usa una máscara, así que cada copia necesita su propio id.
+const ICON_TOTEM = () => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.6 4.4a1.6 1.6 0 1 1 2.3-1.1M15.4 4.4a1.6 1.6 0 1 0-2.3-1.1"/><path d="M7.6 10V5.4c0-1.3.9-2.1 2.2-2.1h4.4c1.3 0 2.2.8 2.2 2.1V10"/><rect x="10.1" y="6.6" width="3.8" height="4" rx=".6"/><path d="M11 8.9h2"/><path d="M7.6 10l-.5 8.3c0 1.8 2 2.7 4.9 2.7s4.9-.9 4.9-2.7l-.5-8.3"/><path d="M9.2 11.8l1.4 4.2M14.8 11.8l-1.4 4.2"/><path d="M9.5 21q0-2.6 2.5-2.6t2.5 2.6"/><path d="M7.6 6.8C4.6 7.2 3.8 10 5.3 12.4M16.6 18.6c2 .4 2.5 2.1 1.9 3.6"/><circle cx="9.1" cy="5.6" r=".6" fill="currentColor" stroke="none"/><circle cx="14.9" cy="5.6" r=".6" fill="currentColor" stroke="none"/></svg>';
+const ICON_MONSTERS = id => `<svg viewBox="0 0 24 24"><defs><mask id="${id}"><rect width="24" height="24" fill="#fff"/><path d="M4.6 12Q12 6.6 19.4 12Q12 17.4 4.6 12Z" fill="#000"/></mask></defs><path mask="url(#${id})" fill="currentColor" d="M1.5 3.5h7l3.5 4.8 3.5-4.8h7v3h-1.2v11h1.2v3h-7v-3h1.1v-4.6L12 17.5l-4.6-4.6v4.6h1.1v3h-7v-3h1.2v-11H1.5z"/><path d="M4.6 12Q12 6.6 19.4 12Q12 17.4 4.6 12Z" fill="none" stroke="currentColor"/><circle cx="12" cy="12" r="2.3" fill="currentColor"/></svg>`;
+const ICO_DEFAULT = { tab: $('ico-tab').innerHTML, btn: $('ico-btn').innerHTML };
+
+// Estilos temáticos: cambian colores, tipografía, fondo y el ícono de "Al azar"; se combinan con claro/oscuro.
 const SKINS = [
   { id: 'clasico',  name: 'Clásico',        sw: ['#2D47C9', '#A87708', '#93A6FF'] },
-  { id: 'osos',     name: 'Tierra de osos', sw: ['#2E6A55', '#B4561F', '#7FE0B8'] },
-  { id: 'monsters', name: 'Monsters Inc.',  sw: ['#6B3FA0', '#5ED3DE', '#A8E05F'] }
+  { id: 'osos',     name: 'Tierra de osos', sw: ['#2E6A55', '#B4561F', '#7FE0B8'], ico: ICON_TOTEM },
+  { id: 'monsters', name: 'Monsters Inc.',  sw: ['#6B3FA0', '#5ED3DE', '#A8E05F'], ico: ICON_MONSTERS }
 ];
 function applySkin(s){
-  if (!SKINS.some(k => k.id === s)) s = 'clasico';
+  const skin = SKINS.find(k => k.id === s) || SKINS[0]; s = skin.id;
   if (s === 'clasico') root.removeAttribute('data-skin'); else root.setAttribute('data-skin', s);
+  ['tab', 'btn'].forEach(k => $('ico-' + k).innerHTML = skin.ico ? skin.ico('ico-mask-' + k) : ICO_DEFAULT[k]);
   store.set(K.skin, s);
   syncThemeColor();
 }
@@ -451,7 +481,7 @@ let loading = false;
 async function loadCatalog(force){
   if (loading) return;
   const cached = store.get(K.cat, null);
-  const fresh = cached && (Date.now() - cached.at) < CACHE_DAYS * 864e5;
+  const fresh = cached && cached.v === CAT_VERSION && (Date.now() - cached.at) < CACHE_DAYS * 864e5;
   if (cached && !force) {
     setCatalog(cached); renderAll();
     const t = (location.hash || '').slice(1); showPanel(TABS.includes(t) ? t : 'catalogo');

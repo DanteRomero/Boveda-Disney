@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Pared de la cueva de Tierra de osos: vetas de roca y pinturas rupestres en ocre.
+       Es un mosaico que se repite; el velo de color de styles.css regula cuánto se ve. -->
+  <defs>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="5"/>
+    </filter>
+  </defs>
+
+  <!-- Roca: planos de luz y sombra como pinceladas -->
+  <g>
+    <path d="M0 0h260l-60 120L0 170z" fill="#fff" opacity=".16"/>
+    <path d="M260 0h340v90L420 160 300 110z" fill="#000" opacity=".05"/>
+    <path d="M0 170l200-50 100 90-60 150L0 330z" fill="#000" opacity=".04"/>
+    <path d="M300 110l120 50 180-70v200l-150 40-190-120z" fill="#fff" opacity=".13"/>
+    <path d="M0 330l240 30 90 130-80 110H0z" fill="#fff" opacity=".1"/>
+    <path d="M330 490l-90-130 40-150 190 120 230-30v300H250z" fill="#000" opacity=".05"/>
+    <path d="M60 60l120 30M340 40l150 30M30 240l130-20M420 250l140 30M120 420l140 40M380 540l170-30" stroke="#000" stroke-width="3" opacity=".06" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <g filter="url(#rough)" fill="none" stroke="#A33B22" stroke-linecap="round" stroke-linejoin="round" opacity=".8">
+    <!-- Oso de pie, rugiendo con las garras en alto -->
+    <path stroke-width="7" d="M148 84C144 62 160 54 170 70C182 62 198 66 212 60L230 56L216 74L232 82L212 92C206 110 214 128 214 148L240 120L250 96M218 166C224 200 216 236 202 258L208 298L226 312H190L182 274C170 284 160 292 152 300L134 314H112L130 296C116 262 112 220 118 180C122 140 132 106 148 84Z"/>
+    <path stroke-width="6" d="M246 128L218 166M180 122L208 96L214 84"/>
+    <path stroke-width="4" d="M250 96l6-11M246 95l1-13M241 97l-4-11M214 84l5-10M210 85l0-11"/>
+    <path stroke-width="4" d="M146 150l32 6M142 172l38 6M140 194l40 6M142 216l36 6M148 238l28 5"/>
+    <circle cx="196" cy="72" r="3.5" fill="#A33B22" stroke="none"/>
+    <path stroke-width="4" d="M96 330q70 8 150-2"/>
+
+    <!-- Cazador con lanza -->
+    <circle cx="384" cy="168" r="11" stroke-width="6"/>
+    <path stroke-width="6" d="M384 180l-4 58M380 238l-18 50M380 238l22 48M382 200l-28 14M382 200l26-16"/>
+    <path stroke-width="5" d="M330 250L444 146"/>
+    <path fill="#A33B22" stroke-width="3" d="M444 146l-16 2 7 13z"/>
+
+    <!-- Mano en la roca -->
+    <g fill="#A33B22" stroke="none" opacity=".75">
+      <ellipse cx="514" cy="92" rx="22" ry="26"/>
+      <rect x="490" y="38" width="9" height="34" rx="4.5" transform="rotate(-14 494 72)"/>
+      <rect x="502" y="28" width="9" height="40" rx="4.5" transform="rotate(-4 506 68)"/>
+      <rect x="515" y="28" width="9" height="40" rx="4.5" transform="rotate(5 519 68)"/>
+      <rect x="527" y="38" width="9" height="34" rx="4.5" transform="rotate(14 531 72)"/>
+      <rect x="532" y="84" width="9" height="28" rx="4.5" transform="rotate(48 536 96)"/>
+    </g>
+
+    <!-- Espiral (los espíritus / la aurora) -->
+    <path stroke-width="5" d="M96 456c0-8 12-8 12 0s-20 14-24 0 14-28 30-20 22 34 4 44-44 0-44-24 26-46 50-38"/>
+    <path stroke-width="4" d="M40 392q22-14 44 0t44 0M40 410q22-14 44 0t44 0"/>
+
+    <!-- Salmón -->
+    <path stroke-width="6" d="M252 470q44-28 96 0q-52 28-96 0zM348 470l22-16v32z"/>
+    <path stroke-width="3" d="M290 460l6 20M306 458l6 24M322 460l6 20"/>
+    <circle cx="266" cy="466" r="3" fill="#A33B22" stroke="none"/>
+
+    <!-- Osa con su cachorro, caminando -->
+    <path stroke-width="6" d="M432 520q4-30 36-34q30-4 52 4l12-8l12 4l2 10l-14 6q-2 12-8 18v24h-12l-2-16h-42l-4 16h-12z"/>
+    <path stroke-width="5" d="M548 556q2-16 18-18q12 0 20 6l8-4l6 8l-8 4v14h-7l-2-8h-20l-3 8h-7z"/>
+    <path stroke-width="4" d="M420 586h170"/>
+
+    <!-- Hileras de puntos -->
+    <g fill="#A33B22" stroke="none">
+      <circle cx="300" cy="40" r="4"/><circle cx="318" cy="46" r="4"/><circle cx="336" cy="50" r="4"/><circle cx="354" cy="52" r="4"/>
+      <circle cx="40" cy="560" r="4"/><circle cx="58" cy="566" r="4"/><circle cx="76" cy="570" r="4"/><circle cx="94" cy="572" r="4"/>
+      <circle cx="560" cy="300" r="4"/><circle cx="566" cy="318" r="4"/><circle cx="570" cy="336" r="4"/>
+    </g>
+  </g>
+</svg>

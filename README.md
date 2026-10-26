@@ -12,6 +12,7 @@ App de películas de Disney conectada a la API de TMDB. Tiene catálogo con filt
 | `manifest.webmanifest` | Nombre, ícono y colores para instalarla como app |
 | `sw.js` | Service worker: permite abrirla sin conexión y guarda los pósters |
 | `icons/` | Íconos de la app |
+| `deco/` | Fondos de los estilos temáticos (pinturas de la cueva de Tierra de osos, puertas de Monsters Inc.) |
 
 ## 1. Conseguir el token de TMDB
 
@@ -48,6 +49,8 @@ Queda con su ícono, en pantalla completa, y abre aunque no tengas internet (con
 ## Detalles del catálogo
 
 - Trae las películas de Walt Disney Productions, Walt Disney Pictures, Walt Disney Animation Studios, Pixar, DisneyToon Studios y Disneynature. La lista de estudios está al principio de `app.js` (`STUDIOS`).
+- De Touchstone, Skellington y Disney Television Animation trae solo las animadas (`STUDIOS_ANIM`): así entran *El extraño mundo de Jack*, *¿Quién engañó a Roger Rabbit?* o *Goofy: la película*.
+- Si falta alguna película puntual, sumá su número a `EXTRA_IDS` en `app.js` (es el número de la dirección `themoviedb.org/movie/NÚMERO`) y subí `CAT_VERSION` para que se vuelva a descargar el catálogo.
 - "Caricaturas" es el género Animación de TMDB.
 - Por defecto se ocultan los títulos con menos de 15 votos (cortos y rarezas). Se puede cambiar en Ajustes.
 - El catálogo se guarda en el celular y se actualiza solo cada 7 días, o a mano desde Ajustes.

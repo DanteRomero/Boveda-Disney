@@ -28,7 +28,8 @@
    --deco es un fondo decorativo que solo asoma detrás del contenido. */
 :root{--fw-display:400;--deco:none}
 
-/* Tierra de osos: bosque del Pacífico Norte, salmón y aurora boreal */
+/* Tierra de osos: la pared de la cueva con las pinturas rupestres (deco/osos.svg), salmón y aurora boreal.
+   El degradé liso que va antes del dibujo es un velo del color de fondo: regula cuánto se ve. */
 :root[data-skin="osos"]{
   --bg:#F4EEE2; --surface:#FFFCF6; --ink:#1E2B24; --muted:#5E6A5F; --line:#E2D9C6;
   --accent:#2E6A55; --accent-ink:#FFFFFF; --gold:#B4561F; --gold-ink:#FFFFFF; --chip:#EAE2D0;
@@ -36,19 +37,19 @@
   --shadow:0 1px 2px rgba(46,38,24,.08),0 6px 18px rgba(46,38,24,.1);
   --backdrop:rgba(30,26,18,.45);
   --f-display:"Alegreya",Georgia,serif; --fw-display:700;
-  --deco:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 220' preserveAspectRatio='none'%3E%3Cpath d='M0 220V110l130-80 90 55 150-95 120 85 100-45 170 110 110-65 150 75 110-55 70 30v105z' fill='%232E6A55' opacity='.10'/%3E%3Cpath d='M0 220v-50l90-40 120 55 140-70 160 75 120-45 150 60 140-50 160 55 120-35v90z' fill='%232E6A55' opacity='.12'/%3E%3C/svg%3E") bottom/100% 220px no-repeat fixed}
+  --deco:linear-gradient(rgba(244,238,226,.4),rgba(244,238,226,.4)) fixed,url("deco/osos.svg") 0 0/460px fixed}
 @media (prefers-color-scheme:dark){:root[data-skin="osos"]:not([data-theme="light"]){
   --bg:#0A1A1E; --surface:#10262B; --ink:#E9F2EC; --muted:#94AFA5; --line:#1E3A3F;
   --accent:#7FE0B8; --accent-ink:#08201A; --gold:#F4A261; --gold-ink:#24130A; --chip:#17323A;
   --ps:34%; --pl1:28%; --pl2:14%;
-  --deco:radial-gradient(120% 60% at 20% -10%,rgba(127,224,184,.16),transparent 60%) fixed,radial-gradient(90% 50% at 85% -5%,rgba(150,120,230,.14),transparent 60%) fixed,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 220' preserveAspectRatio='none'%3E%3Cpath d='M0 220V110l130-80 90 55 150-95 120 85 100-45 170 110 110-65 150 75 110-55 70 30v105z' fill='%23000' opacity='.25'/%3E%3C/svg%3E") bottom/100% 220px no-repeat fixed}}
+  --deco:radial-gradient(120% 60% at 20% -10%,rgba(127,224,184,.16),transparent 60%) fixed,radial-gradient(90% 50% at 85% -5%,rgba(150,120,230,.14),transparent 60%) fixed,linear-gradient(rgba(10,26,30,.5),rgba(10,26,30,.5)) fixed,url("deco/osos.svg") 0 0/460px fixed}}
 :root[data-skin="osos"][data-theme="dark"]{
   --bg:#0A1A1E; --surface:#10262B; --ink:#E9F2EC; --muted:#94AFA5; --line:#1E3A3F;
   --accent:#7FE0B8; --accent-ink:#08201A; --gold:#F4A261; --gold-ink:#24130A; --chip:#17323A;
   --ps:34%; --pl1:28%; --pl2:14%;
-  --deco:radial-gradient(120% 60% at 20% -10%,rgba(127,224,184,.16),transparent 60%) fixed,radial-gradient(90% 50% at 85% -5%,rgba(150,120,230,.14),transparent 60%) fixed,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 220' preserveAspectRatio='none'%3E%3Cpath d='M0 220V110l130-80 90 55 150-95 120 85 100-45 170 110 110-65 150 75 110-55 70 30v105z' fill='%23000' opacity='.25'/%3E%3C/svg%3E") bottom/100% 220px no-repeat fixed}
+  --deco:radial-gradient(120% 60% at 20% -10%,rgba(127,224,184,.16),transparent 60%) fixed,radial-gradient(90% 50% at 85% -5%,rgba(150,120,230,.14),transparent 60%) fixed,linear-gradient(rgba(10,26,30,.5),rgba(10,26,30,.5)) fixed,url("deco/osos.svg") 0 0/460px fixed}
 
-/* Monsters Inc.: turquesa y manchas violetas de Sulley, verde de Mike */
+/* Monsters Inc.: las puertas de la presentación (deco/monsters.svg), violeta de Sulley y verde de Mike */
 :root[data-skin="monsters"]{
   --bg:#EDF7F8; --surface:#FFFFFF; --ink:#1F1A3D; --muted:#5B5878; --line:#D3E6EA;
   --accent:#6B3FA0; --accent-ink:#FFFFFF; --gold:#437A0F; --gold-ink:#FFFFFF; --chip:#DCEFF2;
@@ -56,17 +57,17 @@
   --shadow:0 1px 2px rgba(31,26,61,.08),0 6px 18px rgba(31,26,61,.09);
   --backdrop:rgba(20,16,45,.45);
   --f-display:"Fredoka",system-ui,sans-serif; --fw-display:600;
-  --deco:radial-gradient(circle at 25% 30%,rgba(107,63,160,.09) 0 13px,transparent 14px) 0 0/130px 130px,radial-gradient(circle at 70% 75%,rgba(107,63,160,.07) 0 21px,transparent 22px) 0 0/190px 190px}
+  --deco:linear-gradient(rgba(237,247,248,.74),rgba(237,247,248,.74)) fixed,url("deco/monsters.svg") 0 0/480px fixed}
 @media (prefers-color-scheme:dark){:root[data-skin="monsters"]:not([data-theme="light"]){
   --bg:#0F1430; --surface:#181F45; --ink:#EEF0FF; --muted:#A2A8D0; --line:#2A3263;
   --accent:#5ED3DE; --accent-ink:#0B1530; --gold:#A8E05F; --gold-ink:#13210A; --chip:#222A57;
   --ps:44%; --pl1:30%; --pl2:16%;
-  --deco:radial-gradient(circle at 25% 30%,rgba(150,110,220,.12) 0 13px,transparent 14px) 0 0/130px 130px,radial-gradient(circle at 70% 75%,rgba(94,211,222,.07) 0 21px,transparent 22px) 0 0/190px 190px}}
+  --deco:linear-gradient(rgba(15,20,48,.66),rgba(15,20,48,.66)) fixed,url("deco/monsters.svg") 0 0/480px fixed}}
 :root[data-skin="monsters"][data-theme="dark"]{
   --bg:#0F1430; --surface:#181F45; --ink:#EEF0FF; --muted:#A2A8D0; --line:#2A3263;
   --accent:#5ED3DE; --accent-ink:#0B1530; --gold:#A8E05F; --gold-ink:#13210A; --chip:#222A57;
   --ps:44%; --pl1:30%; --pl2:16%;
-  --deco:radial-gradient(circle at 25% 30%,rgba(150,110,220,.12) 0 13px,transparent 14px) 0 0/130px 130px,radial-gradient(circle at 70% 75%,rgba(94,211,222,.07) 0 21px,transparent 22px) 0 0/190px 190px}
+  --deco:linear-gradient(rgba(15,20,48,.66),rgba(15,20,48,.66)) fixed,url("deco/monsters.svg") 0 0/480px fixed}
 
 *{box-sizing:border-box}
 html{padding-top:env(safe-area-inset-top,0px)}
@@ -153,6 +154,7 @@ select{appearance:none;-webkit-appearance:none;background:var(--surface);border:
 .btn-ghost{background:var(--chip);color:var(--ink)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .btn svg{width:19px;height:19px}
+.ico{display:contents}   /* envoltorio de los íconos que cambian con el estilo */
 
 /* Al azar */
 .stage{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:16px;align-items:start}

@@ -1,11 +1,12 @@
 /* Service worker de Bóveda Disney: guarda la app para abrirla sin conexión y los pósters ya vistos.
    Cuando cambies cualquier archivo de la app, subí el número de VERSION para que los celulares se actualicen. */
-const VERSION = 'v4';
+const VERSION = 'v5';
 const SHELL = 'boveda-shell-' + VERSION;
 const IMGS = 'boveda-posters';
 const FONTS = 'boveda-fonts';
 const FILES = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png'];
+  './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png',
+  './deco/osos.svg', './deco/monsters.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(SHELL).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
